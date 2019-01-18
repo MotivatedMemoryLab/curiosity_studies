@@ -1,6 +1,66 @@
-<div id="container-exp">
-	<div id="container" style="background-color: rgb(90, 90, 90)">
-	</div>
-    <div id="start-exp" style="visibility: hidden">Click here with the new cursor to start.</div>
-    <img width="14px" height="14px" id='cursor' style='position: fixed; display: none;'  src='/static/images/Circle.png' />
+
+{% raw %}
+
+<div id = "app" class = "container">
+    <h1>Adcock Lab: Video Experiment</h1>
+    <div id = "welcome">
+        <p>Welcome to the video experiment by the Adcock Lab. If you would like to begin the experiment, please press the start button below. </p>
+        <button id = "startButton" class = "button" @click = "startExp">Start</button>
+    </div>
+    <div id = "startExp" >
+        <p>In this experiment you will be asked to watch several videos. The videos will begin with an empty canvas and will end with a drawing of some sort. Midway through the video, at any point, we ask that you pause the video and write down your prediction as to what the image will be. At the end of the video, you will be asked to write down what the final image is, and if you were correct.
+        </p>
+        <p>
+            When writing down our predictions, please give broad, general names for what is depicted. For instance, if you see a “puppy” or a “baby Chihuahua”, please just write down “Dog”.
+        </p>
+        <p>Please also do not try to hit the Refresh button during the experiment.</p>
+
+        <button class = "button" @click = "continueToStart">Continue</button>
+
+    </div>
+    <div id = "video1" class = "videos">
+
+        <div v-for = "x in videoList" v-if = "x == videoList[videoIndex]">
+            <video id = "video" width = "620" height = "auto" autoplay muted @ended = "finishedVideo">
+                <source v-bind:src = "x.src" v-bind:type = "x.type">
+            </video>
+            <p><input id = "videoGuess" type = "text" placeholder="Enter Guess" v-model = "videoGuess" @keyup = "testInput">
+            </p>
+            <div id = "displayGuess">
+                <p>Current Guess: {{currentGuess}} <br />
+                </p>
+            </div>
+            <div id = "curiosityMeasure">
+                <p >
+                    You Guessed: {{currentGuess}} <br />
+                    The correct Answer is: {{x.answer}} <br />
+                    Does this match what you guessed:
+                    <br />
+                </p>
+
+                <form v-if = "currentGuess.length <= 2" action="/action_page.php">
+                    <input type="radio" name="filter" value="No" @click = "noCorrect"> No    <br>
+                </form>
+
+                <form v-if = "currentGuess.length > 2" action="/action_page.php">
+                    <input type="radio" name="filter" value="Yes" @click = "yesCorrect()"> Yes
+                    <input type="radio" name="filter" value="No" @click = "noCorrect"> No    <br>
+                </form>
+
+
+                <p>
+                    How curious were you in the outcome of the video? <input id = "slider" type = "range" min = '1' max = "100" value = "50" @input = "sliderFxn"> {{curiosityValue}}
+                </p>
+
+
+                <p v-if = "answeredCorrect == 1 && answeredCuriosityValue == 1">
+                    <button @click = "nextVideo" class = "button">Next Video</button>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+{% endraw %}

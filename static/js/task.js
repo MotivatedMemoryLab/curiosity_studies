@@ -41,208 +41,314 @@ var instructionPages = [ // add as a list as many pages as you like
 *
 ********************/
 
-var Mousetrack = function(rewards) {
-    // Load the stage.html snippet into the body of the page
+var Curiosity = function() {
     psiTurk.showPage('stage.html');
-
     window.moveTo(0, 0);
     window.resizeTo(screen.width, screen.height);
-    /*
-    $(window).resize(function(){
-        window.resizeTo(screen.width, screen.height);
-    });
-    */
 
-    var trial = new Trial(document.getElementById('container'), next);
-    var trials = [];
+    Vue.use(VueFire);
+    var app = new Vue({
+        el: "#app",
+        data: {
+            videoGuess: "",
+            currentGuess: "",
+            submitTime: 0,
+            percentageSubmit: 0,
+            videoList: [
+                {src: "static/videos/ballerina.mp4", type: "video/mp4", answer: "Ballerina"},
+                {src: "static/videos/frog.mp4", type: "video/mp4", answer: "Frog"},
+                {src: "static/videos/hand.mp4", type: "video/mp4", answer: "Hand"},
+                           {src: "static/videos/pomegranate.mp4", type: "video/mp4", answer: "Pomegranate"},
+                           {src: "static/videos/airplane.mp4", type: "video/mp4", answer: "Airplane"},
+                           {src: "static/videos/ant.mp4", type: "video/mp4", answer: "Ant"},
+                           {src: "static/videos/apple.mp4", type: "video/mp4", answer: "Apple"},
+                           {src: "static/videos/astronaut.mp4", type: "video/mp4", answer: "Astronaut"},
+                           {src: "static/videos/bananas.mp4", type: "video/mp4", answer: "Bananas"},
+                           {src: "static/videos/bear.mp4", type: "video/mp4", answer: "Bear"},
+                           {src: "static/videos/bee.mp4", type: "video/mp4", answer: "Bee"},
+                           {src: "static/videos/bellpepper.mp4", type: "video/mp4", answer: "Bell Pepper"},
+                           {src: "static/videos/bike.mp4", type: "video/mp4", answer: "Bike"},
+                           {src: "static/videos/books.mp4", type: "video/mp4", answer: "Books"},
+                           {src: "static/videos/bottle.mp4", type: "video/mp4", answer: "Bottle"},
+                           {src: "static/videos/brain.mp4", type: "video/mp4", answer: "Brain"},
+                           {src: "static/videos/broccoli.mp4", type: "video/mp4", answer: "Broccoli"},
+                           {src: "static/videos/bull.mp4", type: "video/mp4", answer: "Bull"},
+                           {src: "static/videos/burger.mp4", type: "video/mp4", answer: "Burger"},
+                           {src: "static/videos/butterfly.mp4", type: "video/mp4", answer: "Butterfly"},
+                           {src: "static/videos/cactus.mp4", type: "video/mp4", answer: "Cactus"},
+                           {src: "static/videos/cake.mp4", type: "video/mp4", answer: "Cake"},
+                           {src: "static/videos/camel.mp4", type: "video/mp4", answer: "Camel"},
+                           {src: "static/videos/camera.mp4", type: "video/mp4", answer: "Camera"},
+                           {src: "static/videos/candle.mp4", type: "video/mp4", answer: "Candle"},
+                           {src: "static/videos/cappuccino.mp4", type: "video/mp4", answer: "Cappuccino"},
+                           {src: "static/videos/car.mp4", type: "video/mp4", answer: "Car"},
+                           {src: "static/videos/carrots.mp4", type: "video/mp4", answer: "Carrots"},
+                           {src: "static/videos/cat.mp4", type: "video/mp4", answer: "Cat"},
+                           {src: "static/videos/chef.mp4", type: "video/mp4", answer: "Chef"},
+                           {src: "static/videos/constructionworker.mp4", type: "video/mp4", answer: "Construction Worker"},
+                           {src: "static/videos/corn.mp4", type: "video/mp4", answer: "Corn"},
+                           {src: "static/videos/crab.mp4", type: "video/mp4", answer: "Crab"},
+                           {src: "static/videos/cupcake.mp4", type: "video/mp4", answer: "Cupcake"},
+                           {src: "static/videos/dandelion.mp4", type: "video/mp4", answer: "Dandelion"},
+                           {src: "static/videos/deer.mp4", type: "video/mp4", answer: "Deer"},
+                           {src: "static/videos/dog.mp4", type: "video/mp4", answer: "Dog"},
+                           {src: "static/videos/dolphin.mp4", type: "video/mp4", answer: "Dolphin"},
+                           {src: "static/videos/drum.mp4", type: "video/mp4", answer: "Drum"},
+                           {src: "static/videos/drummer.mp4", type: "video/mp4", answer: "Drummer"},
+                           {src: "static/videos/eel.mp4", type: "video/mp4", answer: "Eel"},
+                           {src: "static/videos/elephant.mp4", type: "video/mp4", answer: "Elephant"},
+                           {src: "static/videos/fan.mp4", type: "video/mp4", answer: "Fan"},
+                           {src: "static/videos/faucet.mp4", type: "video/mp4", answer: "Faucet"},
+                           {src: "static/videos/flamingo.mp4", type: "video/mp4", answer: "Flamingo"},
+                           {src: "static/videos/fox.mp4", type: "video/mp4", answer: "fox"},
+                           {src: "static/videos/frenchfries.mp4", type: "video/mp4", answer: "French Fries"},
+                           {src: "static/videos/frenchhorn.mp4", type: "video/mp4", answer: "French Horn"},
+                           {src: "static/videos/frog.mp4", type: "video/mp4", answer: "Frog"},
+                           {src: "static/videos/gamecontroller.mp4", type: "video/mp4", answer: "Game Controller"},
+                           {src: "static/videos/giraffe.mp4", type: "video/mp4", answer: "Giraffe"},
+                           {src: "static/videos/glasses.mp4", type: "video/mp4", answer: "Glasses"},
+                           {src: "static/videos/golfer.mp4", type: "video/mp4", answer: "Golfer"},
+                           {src: "static/videos/gorilla.mp4", type: "video/mp4", answer: "Gorilla"},
+                           {src: "static/videos/guitar.mp4", type: "video/mp4", answer: "Guitar"},
+                           {src: "static/videos/hand.mp4", type: "video/mp4", answer: "Hand"},
+                           {src: "static/videos/hardhat.mp4", type: "video/mp4", answer: "Hard Hat"},
+                           {src: "static/videos/harp.mp4", type: "video/mp4", answer: "Harp"},
+                           {src: "static/videos/headphones.mp4", type: "video/mp4", answer: "Headphones"},
+                           {src: "static/videos/heart.mp4", type: "video/mp4", answer: "Heart"},
+                           {src: "static/videos/hedgehog.mp4", type: "video/mp4", answer: "Hedgehog"},
+                           {src: "static/videos/highheel.mp4", type: "video/mp4", answer: "High Heel"},
+                           {src: "static/videos/horse.mp4", type: "video/mp4", answer: "Horse"},
+                           {src: "static/videos/hotairballoon.mp4", type: "video/mp4", answer: "Hot Air Balloon"},
+                           {src: "static/videos/hourglass.mp4", type: "video/mp4", answer: "Hourglass"},
+                           {src: "static/videos/iceberg.mp4", type: "video/mp4", answer: "Iceberg"},
+                           {src: "static/videos/icecream.mp4", type: "video/mp4", answer: "Ice Cream"},
+                           {src: "static/videos/jellyfish.mp4", type: "video/mp4", answer: "Jelly Fish"},
+                           {src: "static/videos/kangaroo.mp4", type: "video/mp4", answer: "Kangaroo"},
+                           {src: "static/videos/key.mp4", type: "video/mp4", answer: "Key"},
+                           {src: "static/videos/lamp.mp4", type: "video/mp4", answer: "Lamp"},
+                           {src: "static/videos/laptop.mp4", type: "video/mp4", answer: "Laptop"},
+                           {src: "static/videos/lightbulb.mp4", type: "video/mp4", answer: "Light Bulb"},
+                           {src: "static/videos/lighthouse.mp4", type: "video/mp4", answer: "Light House"},
+                           {src: "static/videos/lion.mp4", type: "video/mp4", answer: "Lion"},
+                           {src: "static/videos/lizard.mp4", type: "video/mp4", answer: "Lizard"},
+                           {src: "static/videos/llama.mp4", type: "video/mp4", answer: "Llama"},
+                           {src: "static/videos/lungs.mp4", type: "video/mp4", answer: "Lungs"},
+                           {src: "static/videos/microphone.mp4", type: "video/mp4", answer: "Microphone"},
+                           {src: "static/videos/microscope.mp4", type: "video/mp4", answer: "Microscope"},
+                           {src: "static/videos/moose.mp4", type: "video/mp4", answer: "Moose"},
+                           {src: "static/videos/mountains.mp4", type: "video/mp4", answer: "Mountains"},
+                           {src: "static/videos/mushroom.mp4", type: "video/mp4", answer: "Mushroom"},
+                           {src: "static/videos/nut.mp4", type: "video/mp4", answer: "Nut"},
+                           {src: "static/videos/okra.mp4", type: "video/mp4", answer: "Okra"},
+                           {src: "static/videos/orca.mp4", type: "video/mp4", answer: "Orca"},
+                           {src: "static/videos/owl.mp4", type: "video/mp4", answer: "Owl"},
+                           {src: "static/videos/paintbrush.mp4", type: "video/mp4", answer: "Paintbrush"},
+                           {src: "static/videos/palmtree.mp4", type: "video/mp4", answer: "Palm Tree"},
+                           {src: "static/videos/pancakes.mp4", type: "video/mp4", answer: "Pancakes"},
+                           {src: "static/videos/panda.mp4", type: "video/mp4", answer: "Panda"},
+                           {src: "static/videos/papaya.mp4", type: "video/mp4", answer: "Papaya"},
+                           {src: "static/videos/pear.mp4", type: "video/mp4", answer: "Pear"},
+                           {src: "static/videos/pencil.mp4", type: "video/mp4", answer: "Pencil"},
+                           {src: "static/videos/penguin.mp4", type: "video/mp4", answer: "Penguin"},
+                           {src: "static/videos/phonograph.mp4", type: "video/mp4", answer: "Phonograph"},
+                           {src: "static/videos/pig.mp4", type: "video/mp4", answer: "Pig"},
+                           {src: "static/videos/pineapple.mp4", type: "video/mp4", answer: "Pineapple"},
+                           {src: "static/videos/pinecone.mp4", type: "video/mp4", answer: "Pinecone"},
+                           {src: "static/videos/pinetree.mp4", type: "video/mp4", answer: "Pine Tree"},
+                           {src: "static/videos/pipe.mp4", type: "video/mp4", answer: "Pipe"},
+                           {src: "static/videos/pizza.mp4", type: "video/mp4", answer: "Pizza"},
+                           {src: "static/videos/pot.mp4", type: "video/mp4", answer: "Pot"},
+                           {src: "static/videos/rabbit.mp4", type: "video/mp4", answer: "Rabbit"},
+                           {src: "static/videos/raccoon.mp4", type: "video/mp4", answer: "Raccoon"},
+                           {src: "static/videos/ram.mp4", type: "video/mp4", answer: "Ram"},
+                           {src: "static/videos/rhino.mp4", type: "video/mp4", answer: "Rhino"},
+                           {src: "static/videos/rooster.mp4", type: "video/mp4", answer: "Rooster"},
+                           {src: "static/videos/rose.mp4", type: "video/mp4", answer: "Rose"},
+                           {src: "static/videos/sailboat.mp4", type: "video/mp4", answer: "Sailboat"},
+                           {src: "static/videos/saxophone.mp4", type: "video/mp4", answer: "Saxophone"},
+                           {src: "static/videos/scale.mp4", type: "video/mp4", answer: "Scale"},
+                           {src: "static/videos/scissors.mp4", type: "video/mp4", answer: "Scissors"},
+                           {src: "static/videos/scorpion.mp4", type: "video/mp4", answer: "Scorpion"},
+                           {src: "static/videos/seahorse.mp4", type: "video/mp4", answer: "Seahorse"},
+                           {src: "static/videos/seal.mp4", type: "video/mp4", answer: "Seal"},
+                           {src: "static/videos/shark.mp4", type: "video/mp4", answer: "Shark"},
+                           {src: "static/videos/shell.mp4", type: "video/mp4", answer: "Shell"},
+                           {src: "static/videos/skateboard.mp4", type: "video/mp4", answer: "Skateboard"},
+                           {src: "static/videos/sloth.mp4", type: "video/mp4", answer: "Sloth"},
+                           {src: "static/videos/snail.mp4", type: "video/mp4", answer: "Snail"},
+                           {src: "static/videos/sneaker.mp4", type: "video/mp4", answer: "Sneaker"},
+                           {src: "static/videos/squid.mp4", type: "video/mp4", answer: "Squid"},
+                           {src: "static/videos/squirrel.mp4", type: "video/mp4", answer: "Squirrel"},
+                           {src: "static/videos/succulent.mp4", type: "video/mp4", answer: "Succulent"},
+                           {src: "static/videos/surfer.mp4", type: "video/mp4", answer: "Surfer"},
+                           {src: "static/videos/swordfish.mp4", type: "video/mp4", answer: "Swordfish"},
+                           {src: "static/videos/taco.mp4", type: "video/mp4", answer: "taco"},
+                           {src: "static/videos/television.mp4", type: "video/mp4", answer: "Television"},
+                           {src: "static/videos/tiger.mp4", type: "video/mp4", answer: "Tiger"},
+                           {src: "static/videos/train.mp4", type: "video/mp4", answer: "Train"},
+                           {src: "static/videos/tulip.mp4", type: "video/mp4", answer: "Tulip"},
+                           {src: "static/videos/turtle.mp4", type: "video/mp4", answer: "Turtle"},
+                           {src: "static/videos/violin.mp4", type: "video/mp4", answer: "Violin"},
+                           {src: "static/videos/walrus.mp4", type: "video/mp4", answer: "Walrus"},
+                           {src: "static/videos/watermelon.mp4", type: "video/mp4", answer: "Watermelon"},
+                           {src: "static/videos/wave.mp4", type: "video/mp4", answer: "Wave"},
+                           {src: "static/videos/whale.mp4", type: "video/mp4", answer: "Whale"},
+                           {src: "static/videos/wineglass.mp4", type: "video/mp4", answer: "Wine Glass"},
+                           {src: "static/videos/wolf.mp4", type: "video/mp4", answer: "Wolf"},
+                           {src: "static/videos/yogi.mp4", type: "video/mp4", answer: "Yogi"},
+                           {src: "static/videos/zebra.mp4", type: "video/mp4", answer: "Zebra"},
 
-    var havePointerLock = 'pointerLockElement' in document ||
-        'mozPointerLockElement' in document ||
-        'webkitPointerLockElement' in document;
+            ],
+            videoIndex: -1,
+            videoAnswer: "",
+            curiosityValue: 0,
+            guessList: [],
+            data: [],
+            correct: 0,
+            answeredCorrect: 0,
+            answeredCuriosityValue: 0,
+            validVideoGuess: 0,
 
 
-    if(havePointerLock){
+        },
+        computed: {
+            // return todos that match the currently selected filter
+            filteredTodos() {
+                return filters[this.visibility](this.todos);
+            }
+        },
+        firebase: {
+//        accounts: usersRef,
+//        profilePics: imgRef
+        },
+        methods: {
+            startExp() {
+                document.getElementById("welcome").style.display = "none";
+                document.getElementById("startExp").style.display = "block";
+                var currentIndex = this.videoList.length;
+                var temporaryValue;
+                var randomIndex;
+                while (0 !== currentIndex) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
 
-        showMessage(trial, "Get Ready! This is a practice run. Do not resize or exit this window until you are done. Press t and read the cursor prompt to begin.", "white", true,
-        function(){
-
-            lockMouse.call(trial);
-            var startExp = document.getElementById("start-exp");
-            startExp.style.visibility = "visible";
-            document.addEventListener("click", function start(){
-                if(cursorOn(startExp)){
-                    startTrial();
-                    startExp.style.display = "None";
+                    temporaryValue = this.videoList[currentIndex];
+                    this.videoList[currentIndex] = this.videoList[randomIndex];
+                    this.videoList[randomIndex] = temporaryValue;
                 }
-                document.removeEventListener("click", start);
-            })
-        });
+//            for (i = 0; i < this.videoList.length; i++){
+//                console.log(this.videoList[i]);
+//            }
+//            console.log(this.videoList[this.videoIndex]);
 
-        calculate_trials(4, 4, 4, 4, 8);
+            },
+            nextVideo() {
+                this.data.push({
+                    submitTime: this.submitTime,
+                    videoGuess: this.currentGuess,
+                    percentageSubmit: this.percentageSubmit,
+                    guessList: this.guessList,
+                    curiosityValue: this.curiosityValue,
+                    correct: this.correct,
+                });
 
-        // pushTrial("double", 0.36, 0.74);
-        // pushTrial("press", "spacebar", 11, 2000, 0.82, 0.07);
-        // pushTrial("single", 0.43, "left");
-
-    } else {
-        showMessage(trial, "Cannot replace the mouse cursor, please try another browser.", 'white', false, function(){});
-    }
-
-    function calculate_trials(num_press, num_left_solo, num_right_solo, num_guess, break_threshold){
-        var arr = [];
-        var expand = function(data, frequency){
-            var ret = [];
-            for(var i = 0; i < frequency; i++){
-                ret.push(data);
-            }
-            return ret
-        }
-        const press_row = 15;
-        const left_solo_row = 16;
-        const right_solo_row = 17;
-        const guess_row = 18;
-        const break_trial = -1;
-
-        arr.push.apply(arr, expand(press_row, num_press));
-        arr.push.apply(arr, expand(left_solo_row, num_left_solo));
-        arr.push.apply(arr, expand(right_solo_row, num_right_solo));
-        arr.push.apply(arr, expand(guess_row, num_guess));
-        arr = _.shuffle(arr);
-        for(var i = break_threshold; i < arr.length; i+= break_threshold){
-            arr.splice(i, 0, break_trial);
-        }
-
-        // Press Trial Params
-        const key = "spacebar";
-        const time = 2000;
-
-        const label_left_dual = 1;
-        const label_right_dual = 2;
-        const label_left_solo = 3;
-        const label_right_solo = 4;
-        const label_left_dual_guess = 5;
-        const label_right_dual_guess = 6;
-
-        var tick_press = 0;
-        var tick_left_solo = 0;
-        var tick_right_solo = 0;
-        var tick_guess = 0;
-
-        function randi(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        rewards = rewards.split("\n").map(function(row){return row.split(",");});
-
-        for(var j = 0; j < arr.length; j++){
-            switch (arr[j]){
-                case press_row:
-                    pushTrial("press", key, randi(7, 12), time, rewards[label_left_dual][tick_press], rewards[label_right_dual][tick_press]);
-                    tick_press += 1;
-                    break;
-
-                case left_solo_row:
-                    pushTrial("single", rewards[label_left_solo][tick_left_solo], "left");
-                    tick_left_solo += 1;
-                    break;
-
-                case right_solo_row:
-                    pushTrial("single", rewards[label_right_solo][tick_right_solo], "right");
-                    tick_right_solo += 1;
-                    break;
-
-                case guess_row:
-                    pushTrial("double", rewards[label_left_dual_guess][tick_guess], rewards[label_right_dual_guess][tick_guess]);
-                    tick_guess += 1;
-                    break;
-                case break_trial:
-                    pushTrial("break");
-                    break;
-            }
-        }
-
-    }
-
-
-
-    function pushTrial(){
-        trials.push(arguments);
-    }
-
-    function startTrial(){
-        if(trials.length > 0){
-            var info = trials.shift();
-            switch(String(info[0])){
-                case "double":
-                    trial.double(info[1], info[2], info.length > 3 ? info[3] : undefined);
-                    break;
-                case "single":
-                    trial.single(info[1], info[2], info.length > 3 ? info[3] : undefined);
-                    break;
-                case "press":
-                    trial.press(info[1], info[2], info[3], info[4], info[5]);
-                    break;
-                case "break":
-                    showMessage(trial, "Take a break. Press t to continue.", "white", true, function(){
-                        startTrial();
-                    });
-                    break;
-            }
-        } else {
-            console.log("Done!");
-
-            document.getElementsByTagName("BODY")[0].style.backgroundColor = 'white';
-            currentview = new Questionnaire();
-        }
-    }
-
-    function next(){
-
-        switch(arguments[0]){
-            case "press":
-                psiTurk.recordTrialData({'trial':"press",
-                    'num':arguments[1],
-                    'duration':arguments[2],
-                    'val1':arguments[3],
-                    'val2':arguments[4],
-                    'presses':arguments[5]
+                psiTurk.recordTrialData({
+                        submitTime: this.submitTime,
+                        videoGuess: this.currentGuess,
+                        percentageSubmit: this.percentageSubmit,
+                        guessList: this.guessList,
+                        curiosityValue: this.curiosityValue,
+                        correct: this.correct,
                     }
                 );
-                break;
-            case "double":
-                psiTurk.recordTrialData({'trial':"double",
-                        'val1':arguments[1],
-                        'val2':arguments[2],
-                        'reveal':arguments[3],
-                        'mtimes':arguments[4],
-                        'mouse':arguments[5],
-                        'choice':arguments[6],
+
+//            Here you would need to push this.data to the MTurk server so it is saved on the database
+                console.log(this.data);
+                console.log("This is the video index", this.videoIndex);
+                console.log("this is the videoList length: ", this.videoList.length);
+                this.videoIndex++;
+                this.submitTime = 0;
+                this.percentageSubmit = 0;
+                this.videoGuess = "";
+                this.currentGuess = "";
+                this.curiosityValue = 50;
+                this.guessList = [];
+                this.answeredCuriosityValue = 0;
+                this.answeredSlidervalue = 0;
+                this.answeredCorrect = 0;
+
+                if (this.videoIndex > this.videoList.length - 1){
+                    currentview = new Questionnaire();
+                }
+            },
+            continueToStart() {
+                this.nextVideo();
+                document.getElementById("startExp").style.display = "none"
+                document.getElementById("video1").style.display = "block";
+
+            },
+            testInput() {
+                var myVideo = document.getElementById("video");
+                if (this.videoGuess.length > 0) {
+                    if (!myVideo.paused) {
+                        myVideo.pause();
+                        this.submitTime = myVideo.currentTime;
+                        var duration = myVideo.duration;
+                        var percentage = (myVideo.currentTime / duration) * 100;
+                        this.percentageSubmit = percentage;
+
                     }
-                );
-                break;
-            case "single":
-                psiTurk.recordTrialData({'trial':"single",
-                        'value':arguments[1],
-                        'side':arguments[2],
-                        'reveal':arguments[3],
-                        'mtimes':arguments[4],
-                        'mouse':arguments[5],
-                        'choice':arguments[6],
+                }
+                if (this.videoGuess.length < 1) {
+                    myVideo.play();
+                }
+                var keyCode = event.keyCode;
+                if (keyCode == 13) {
+                    this.checkVideoGuess(this.videoGuess);
+                    if (this.validVideoGuess == 1) {
+                        myVideo.play();
+                        this.currentGuess = this.videoGuess;
+                        this.guessList.push(this.currentGuess);
+                        this.videoGuess = "";
+                        document.getElementById("displayGuess").style.display = "block";
                     }
-                );
-                break;
+
+                }
+            },
+            finishedVideo() {
+                document.getElementById("videoGuess").style.display = "none";
+                document.getElementById("displayGuess").style.display = "none";
+                document.getElementById("curiosityMeasure").style.display = "block";
+                var myVideo = document.getElementById("video");
+                myVideo.pause();
+            },
+            sliderFxn() {
+                var slider = document.getElementById("slider");
+                this.curiosityValue = slider.value;
+                this.answeredCuriosityValue = 1;
+            },
+            yesCorrect() {
+                this.correct = 1;
+                this.answeredCorrect = 1;
+            },
+            noCorrect() {
+                this.correct = 0;
+                this.answeredCorrect = 1;
+            },
+            checkVideoGuess(videoGuess) {
+                if (videoGuess.length <= 2) {
+                    alert("Please Enter a Valid Guess")
+                    this.videoGuess == "";
+                }
+                else {
+                    this.validVideoGuess = 1;
+                }
+            },
+
+
         }
-
-        startTrial();
-    }
-}
-
-
-/****************
-* Questionnaire *
-****************/
+    });
+};
 
 var Questionnaire = function() {
 
@@ -256,7 +362,7 @@ var Questionnaire = function() {
 			psiTurk.recordUnstructuredData(this.id, this.value);
 		});
 		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+			psiTurk.recordUnstructuredData(this.id, this.value);
 		});
 
 	};
@@ -269,38 +375,36 @@ var Questionnaire = function() {
 	resubmit = function() {
 		document.body.innerHTML = "<h1>Trying to resubmit...</h1>";
 		reprompt = setTimeout(prompt_resubmit, 10000);
-		
+
 		psiTurk.saveData({
 			success: function() {
-			    clearInterval(reprompt); 
+			    clearInterval(reprompt);
                 psiTurk.computeBonus('compute_bonus', function(){
                 	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
-                }); 
+                });
 
 
-			}, 
+			},
 			error: prompt_resubmit
 		});
 	};
 
-	// Load the questionnaire snippet 
+	// Load the questionnaire snippet
 	psiTurk.showPage('postquestionnaire.html');
 	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
-	
+
 	$("#next").click(function () {
 	    record_responses();
 	    psiTurk.saveData({
             success: function(){
-                psiTurk.computeBonus('compute_bonus', function() { 
+                psiTurk.computeBonus('compute_bonus', function() {
                 	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
-                }); 
-            }, 
+                });
+            },
             error: prompt_resubmit});
 	});
-    
-	
-};
 
+};
 // Task object to keep track of the current phase
 var currentview;
 
@@ -333,25 +437,11 @@ var currentview;
     });
 };*/
 
-$(window).load( function(){
+$(window).load(function () {
     psiTurk.doInstructions(
         instructionPages, // a list of pages you want to display in sequence
-        function() {
-            $(document).ready(function () {
-                $.ajax({
-                    type: "GET",
-                    url: "static/resources/chances.csv",
-                    dataType: "text",
-                    success: function (data) {
-                        currentview = new Mousetrack(data);  // what you want to do when you are done with instructions
-                    },
-                    error: function (req, status, error) {
-                        $("body").html("<p>" + error + "</p>");
-                    }
-                });
-            });
-
-        }
-
+        function () {
+            currentview = new Curiosity();
+        } // what you want to do when you are done with instructions
     );
 });

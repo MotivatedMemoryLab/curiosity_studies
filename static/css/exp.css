@@ -1,68 +1,56 @@
-.clickarea {
-  background-color:#333;
-  overflow:visible;
-  width:100px;
-  height:90px;
-  text-align: center;
-  padding-top: 10px;
-  box-sizing: border-box;
-  border: thin solid #333;
+body{
+/*     background-image: url(images/office_desk_background.jpg);*/
+/*        This image is from: https://chocotemplates.deviantart.com/art/Office-Desk-Background-148278416 with a free license*/
+    background-color: black;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin-left: 150px;
+    margin-right: 150px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
-#indicator {
-  background:#fff;
-  overflow:visible;
-  width:100px;
-  height:90px;
-  text-align: center;
-  padding-top: 10px;
-  margin: 50px auto;
+h1{
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-top: 1%;
+    background-color: rgba(255,255,240,0.9);
+    border-radius: 20px;
+    
 }
-#ready {
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20pt;
-  color: white;
-  font-family: sans-serif;
+#welcome{
+    background-color: rgba(255,255,240,0.9);
+    border-radius: 20px; 
+    padding: 1.5%;
+    font-size: 120%;
 }
-#startarea { /* This is no longer displayed */
-  text-align: center;
-  position: fixed;
-  bottom: 0%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: auto;
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color:#77f;
-  width:100px;
-  cursor: pointer;
+.button{
+    border-radius: 10px;
+    
 }
-#submitButton { /* This is no longer displayed */
-  position: fixed;
-  top: 0%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: auto;
-  margin-top: 50px;
-  display: none;
+.button:hover{
+    border-color: aqua;
+    border-width: medium;
 }
-#press, #trial{
-  text-align: center;
-  font-size: 48px;
+#startExp{
+    display: none;
+    background-color: rgba(255,255,240,0.9);
+    border-radius: 20px; 
+    padding: 1.5%;
+    font-size: 120%;
 }
-
-#start-exp {
-  visibility: hidden;
-  text-align: center;
-  position: fixed;
-  bottom: 0%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: auto;
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color:#77f;
-  width:300px;
+.videos{
+    background-color: rgba(255,255,240,0.9);
+    border-radius: 20px; 
+    padding: 1.5%;
+    font-size: 120%;
+    display: none;
+    text-align: center;
+    
+}
+#displayGuess{
+    display: none;
+}
+#curiosityMeasure{
+    display: none;
 }
