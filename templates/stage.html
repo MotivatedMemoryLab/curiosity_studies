@@ -32,28 +32,23 @@
             </div>
             <div id = "curiosityMeasure">
                 <p >
-                    You Guessed: {{currentGuess}} <br />
-                    The correct Answer is: {{x.answer}} <br />
-                    Does this match what you guessed:
-                    <br />
+                    Enter your Final Guess: <input id = "finalGuess" type = "text" placeholder = "Final Guess Is ..." v-model = "videoGuess" @keyup = "finalGuessMethod">
                 </p>
-
-                <form v-if = "currentGuess.length <= 2" action="/action_page.php">
-                    <input type="radio" name="filter" value="No" @click = "noCorrect"> No    <br>
-                </form>
-
-                <form v-if = "currentGuess.length > 2" action="/action_page.php">
-                    <input type="radio" name="filter" value="Yes" @click = "yesCorrect()"> Yes
-                    <input type="radio" name="filter" value="No" @click = "noCorrect"> No    <br>
-                </form>
+                <p v-if = "finalGuess.length > 2">
+                    Your Final Guess is: {{ finalGuess }}
+                </p>
 
 
                 <p>
-                    How curious were you in the outcome of the video? <input id = "slider" type = "range" min = '1' max = "100" value = "50" @input = "sliderFxn"> {{curiosityValue}}
+                    How much did you want to know the final product of the drawing? 0 = least, 100 = most<input id = "slider" type = "range" min = '1' max = "100" v-bind:value = "curiosityValue" @input = "sliderFxn_curiosity"> {{curiosityValue}}
+                </p>
+
+                <p>
+                    How fast did you feel the line was moving? 0 = slowest, 100 = fastest<input id = "slider_linespeed" type = "range" min = '1' max = "100" v-bind:value = "speedValue" @input = "sliderFxn_linespeed"> {{speedValue}}
                 </p>
 
 
-                <p v-if = "answeredCorrect == 1 && answeredCuriosityValue == 1">
+                <p v-if = "finalGuess.length > 2 && answeredCuriosityValue == 1 && answeredSpeedValue == 1">
                     <button @click = "nextVideo" class = "button">Next Video</button>
                 </p>
             </div>
