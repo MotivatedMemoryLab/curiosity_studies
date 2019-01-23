@@ -191,7 +191,7 @@ var Curiosity = function() {
                    // {src: "static/videos/violin.mp4", type: "video/mp4", answer: "Violin"},
                    // {src: "static/videos/walrus.mp4", type: "video/mp4", answer: "Walrus"},
                    // {src: "static/videos/watermelon.mp4", type: "video/mp4", answer: "Watermelon"},
-                   {src: "static/videos/wave.mp4", type: "video/mp4", answer: "Wave"},
+                   // {src: "static/videos/wave.mp4", type: "video/mp4", answer: "Wave"},
                    {src: "static/videos/whale.mp4", type: "video/mp4", answer: "Whale"},
                    // {src: "static/videos/wineglass.mp4", type: "video/mp4", answer: "Wine Glass"},
                    // {src: "static/videos/wolf.mp4", type: "video/mp4", answer: "Wolf"},
@@ -205,6 +205,7 @@ var Curiosity = function() {
             speedValue: 50,
             guessList: [],
             submitTimeList: [],
+            percentageSubmitList: [],
             data: [],
             correct: 0,
             answeredCorrect: 0,
@@ -212,8 +213,6 @@ var Curiosity = function() {
             answeredSpeedValue: 0,
             validVideoGuess: 0,
             finalGuess: "",
-
-
 
         },
         computed: {
@@ -241,18 +240,8 @@ var Curiosity = function() {
                     this.videoList[currentIndex] = this.videoList[randomIndex];
                     this.videoList[randomIndex] = temporaryValue;
                 }
-
-                // return this.videoList;
-//            for (i = 0; i < this.videoList.length; i++){
-//                console.log(this.videoList[i]);
-//            }
-//            console.log(this.videoList[this.videoIndex]);
-
             },
             nextVideo() {
-                // if (this.videoIndex > this.videoList.length-1){
-                //     currentview = new Questionnaire();
-                // }
                 this.data.push({
                     submitTimeList: this.submitTimeList,
                     videoGuess: this.currentGuess,
@@ -279,9 +268,6 @@ var Curiosity = function() {
                 this.videoIndex++;
                 console.log(this.data);
                 console.log("The Current video index is", this.videoIndex);
-                // console.log("this is the videoList length: ", this.videoList.length);
-
-                // console.log("We just incremented videoIndex. This is the new videoIndex", this.videoIndex);
                 console.log(this.videoList[this.videoIndex]);
                 this.submitTime = 0;
                 this.percentageSubmit = 0;
@@ -299,8 +285,6 @@ var Curiosity = function() {
                 this.finalGuess = "";
                 var myVideo = document.getElementById("video");
 
-                // this.videoIndex++;
-
                 if (this.videoIndex > this.videoList.length-1){
                     currentview = new Questionnaire();
                 } else {
@@ -311,7 +295,6 @@ var Curiosity = function() {
                 }
             },
             continueToStart() {
-                // this.nextVideo();
                 var myVideo = document.getElementById("video");
                 myVideo.src = this.videoList[this.videoIndex].src;
                 document.getElementById("startExp").style.display = "none"
@@ -319,21 +302,12 @@ var Curiosity = function() {
                 console.log(this.videoList);
                 console.log("this is the video index when we hit continue to start: ", this.videoIndex);
                 console.log(this.videoList[this.videoIndex])
-                // this.videoIndex++;
-
             },
             testInput() {
                 var myVideo = document.getElementById("video");
                 if (this.videoGuess.length > 0) {
                     if (!myVideo.paused) {
                         myVideo.pause();
-                        this.submitTime = myVideo.currentTime;
-                        var duration = myVideo.duration;
-                        var percentage = (myVideo.currentTime / duration) * 100;
-                        this.percentageSubmit = percentage;
-                        this.submitTimeList.push(this.submitTime);
-                        this.percentageSubmitList.push(this.percentageSubmit);
-                        // this.videoGuess = "";
                     }
                 }
                 if (this.videoGuess.length < 1) {
@@ -347,9 +321,14 @@ var Curiosity = function() {
                         this.currentGuess = this.videoGuess;
                         this.guessList.push(this.currentGuess);
                         this.videoGuess = "";
+                        this.submitTime = myVideo.currentTime;
+                        var duration = myVideo.duration;
+                        var percentage = (myVideo.currentTime / duration) * 100;
+                        this.percentageSubmit = percentage;
+                        this.submitTimeList.push(this.submitTime);
+                        this.percentageSubmitList.push(this.percentageSubmit);
                         document.getElementById("displayGuess").style.display = "block";
                     }
-
                 }
             },
             finalGuessMethod() {
@@ -361,7 +340,6 @@ var Curiosity = function() {
                         // this.guessList.push(this.finalGuess);
                         this.videoGuess = "";
                     }
-
                 }
             },
             finishedVideo() {
@@ -371,18 +349,7 @@ var Curiosity = function() {
                 document.getElementById("curiosityMeasure").style.display = "block";
                 var myVideo = document.getElementById("video");
                 myVideo.pause();
-                // if (this.videoIndex > this.videoList.length-1){
-                //     currentview = new Questionnaire();
-                // }
             },
-            // donewithVideo() {
-            //     console.log("finished video!")
-            //     document.getElementById("videoGuess").style.display = "none";
-            //     document.getElementById("displayGuess").style.display = "none";
-            //     document.getElementById("curiosityMeasure").style.display = "block";
-            //     var myVideo = document.getElementById("video");
-            //     myVideo.pause();
-            // },
             sliderFxn_curiosity() {
                 var slider = document.getElementById("slider");
                 this.curiosityValue = slider.value;
@@ -393,14 +360,6 @@ var Curiosity = function() {
                 this.speedValue = slider.value;
                 this.answeredSpeedValue = 1;
             },
-            // yesCorrect() {
-            //     this.correct = 1;
-            //     this.answeredCorrect = 1;
-            // },
-            // noCorrect() {
-            //     this.correct = 0;
-            //     this.answeredCorrect = 1;
-            // },
             checkVideoGuess(videoGuess) {
                 if (videoGuess.length <= 2) {
                     alert("Please Enter a Valid Guess")
@@ -410,13 +369,6 @@ var Curiosity = function() {
                     this.validVideoGuess = 1;
                 }
             },
-            // onPlay(){
-            //     console.log("Video is playing!")
-            //
-            // },
-
-
-
         }
     });
 };
