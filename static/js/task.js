@@ -191,19 +191,20 @@ var Curiosity = function() {
                    // {src: "static/videos/violin.mp4", type: "video/mp4", answer: "Violin"},
                    // {src: "static/videos/walrus.mp4", type: "video/mp4", answer: "Walrus"},
                    // {src: "static/videos/watermelon.mp4", type: "video/mp4", answer: "Watermelon"},
-                   // {src: "static/videos/wave.mp4", type: "video/mp4", answer: "Wave"},
-                   // {src: "static/videos/whale.mp4", type: "video/mp4", answer: "Whale"},
+                   {src: "static/videos/wave.mp4", type: "video/mp4", answer: "Wave"},
+                   {src: "static/videos/whale.mp4", type: "video/mp4", answer: "Whale"},
                    // {src: "static/videos/wineglass.mp4", type: "video/mp4", answer: "Wine Glass"},
-                   {src: "static/videos/wolf.mp4", type: "video/mp4", answer: "Wolf"},
-                   {src: "static/videos/yogi.mp4", type: "video/mp4", answer: "Yogi"},
-                   {src: "static/videos/zebra.mp4", type: "video/mp4", answer: "Zebra"},
+                   // {src: "static/videos/wolf.mp4", type: "video/mp4", answer: "Wolf"},
+                   // {src: "static/videos/yogi.mp4", type: "video/mp4", answer: "Yogi"},
+                   // {src: "static/videos/zebra.mp4", type: "video/mp4", answer: "Zebra"},
 
             ],
             videoIndex: 0,
             videoAnswer: "",
-            curiosityValue: 0,
-            speedValue: 0,
+            curiosityValue: 50,
+            speedValue: 50,
             guessList: [],
+            submitTimeList: [],
             data: [],
             correct: 0,
             answeredCorrect: 0,
@@ -240,6 +241,8 @@ var Curiosity = function() {
                     this.videoList[currentIndex] = this.videoList[randomIndex];
                     this.videoList[randomIndex] = temporaryValue;
                 }
+
+                // return this.videoList;
 //            for (i = 0; i < this.videoList.length; i++){
 //                console.log(this.videoList[i]);
 //            }
@@ -247,36 +250,43 @@ var Curiosity = function() {
 
             },
             nextVideo() {
+                // if (this.videoIndex > this.videoList.length-1){
+                //     currentview = new Questionnaire();
+                // }
                 this.data.push({
-                    submitTime: this.submitTime,
+                    submitTimeList: this.submitTimeList,
                     videoGuess: this.currentGuess,
-                    percentageSubmit: this.percentageSubmit,
+                    percentageSubmitList: this.percentageSubmitList,
                     guessList: this.guessList,
                     curiosityValue: this.curiosityValue,
                     speedValue: this.speedValue,
-                    correct: this.correct,
+                    // correct: this.correct,
+                    finalGuess: this.finalGuess,
                 });
 
                 psiTurk.recordTrialData({
-                        submitTime: this.submitTime,
+                        submitTimeList: this.submitTimeList,
                         videoGuess: this.currentGuess,
-                        percentageSubmit: this.percentageSubmit,
+                        percentageSubmitList: this.percentageSubmitList,
                         guessList: this.guessList,
                         curiosityValue: this.curiosityValue,
                         speedValue: this.speedValue,
-                        correct: this.correct,
+                        // correct: this.correct,
+                        finalGuess: this.finalGuess,
                     }
                 );
 
-//            Here you would need to push this.data to the MTurk server so it is saved on the database
-//                 console.log(this.data);
-                console.log("The Current video index is", this.videoIndex);
-                console.log("this is the videoList length: ", this.videoList.length);
                 this.videoIndex++;
-                console.log("We just incremented videoIndex. This is the new videoIndex", this.videoIndex);
+                console.log(this.data);
+                console.log("The Current video index is", this.videoIndex);
+                // console.log("this is the videoList length: ", this.videoList.length);
+
+                // console.log("We just incremented videoIndex. This is the new videoIndex", this.videoIndex);
                 console.log(this.videoList[this.videoIndex]);
                 this.submitTime = 0;
                 this.percentageSubmit = 0;
+                this.submitTimeList = [];
+                this.percentageSubmitList = [];
                 this.videoGuess = "";
                 this.currentGuess = "";
                 this.curiosityValue = 50;
@@ -289,21 +299,27 @@ var Curiosity = function() {
                 this.finalGuess = "";
                 var myVideo = document.getElementById("video");
 
+                // this.videoIndex++;
+
                 if (this.videoIndex > this.videoList.length-1){
                     currentview = new Questionnaire();
+                } else {
+                    myVideo.src = this.videoList[this.videoIndex].src;
+                    document.getElementById("videoGuess").style.display = "block";
+                    document.getElementById("displayGuess").style.display = "none";
+                    document.getElementById("curiosityMeasure").style.display = "none";
                 }
-                myVideo.src = this.videoList[this.videoIndex].src;
-                document.getElementById("videoGuess").style.display = "block";
-                document.getElementById("displayGuess").style.display = "none";
-                document.getElementById("curiosityMeasure").style.display = "none";
             },
             continueToStart() {
-                this.nextVideo();
+                // this.nextVideo();
+                var myVideo = document.getElementById("video");
+                myVideo.src = this.videoList[this.videoIndex].src;
                 document.getElementById("startExp").style.display = "none"
                 document.getElementById("video1").style.display = "block";
                 console.log(this.videoList);
-                console.log("this is the video index when we hit continue to strart: ", this.videoIndex);
+                console.log("this is the video index when we hit continue to start: ", this.videoIndex);
                 console.log(this.videoList[this.videoIndex])
+                // this.videoIndex++;
 
             },
             testInput() {
@@ -315,7 +331,9 @@ var Curiosity = function() {
                         var duration = myVideo.duration;
                         var percentage = (myVideo.currentTime / duration) * 100;
                         this.percentageSubmit = percentage;
-
+                        this.submitTimeList.push(this.submitTime);
+                        this.percentageSubmitList.push(this.percentageSubmit);
+                        // this.videoGuess = "";
                     }
                 }
                 if (this.videoGuess.length < 1) {
@@ -340,7 +358,7 @@ var Curiosity = function() {
                     this.checkVideoGuess(this.videoGuess);
                     if (this.validVideoGuess == 1) {
                         this.finalGuess = this.videoGuess;
-                        this.guessList.push(this.finalGuess);
+                        // this.guessList.push(this.finalGuess);
                         this.videoGuess = "";
                     }
 
@@ -353,15 +371,18 @@ var Curiosity = function() {
                 document.getElementById("curiosityMeasure").style.display = "block";
                 var myVideo = document.getElementById("video");
                 myVideo.pause();
+                // if (this.videoIndex > this.videoList.length-1){
+                //     currentview = new Questionnaire();
+                // }
             },
-            donewithVideo() {
-                console.log("finished video!")
-                document.getElementById("videoGuess").style.display = "none";
-                document.getElementById("displayGuess").style.display = "none";
-                document.getElementById("curiosityMeasure").style.display = "block";
-                var myVideo = document.getElementById("video");
-                myVideo.pause();
-            },
+            // donewithVideo() {
+            //     console.log("finished video!")
+            //     document.getElementById("videoGuess").style.display = "none";
+            //     document.getElementById("displayGuess").style.display = "none";
+            //     document.getElementById("curiosityMeasure").style.display = "block";
+            //     var myVideo = document.getElementById("video");
+            //     myVideo.pause();
+            // },
             sliderFxn_curiosity() {
                 var slider = document.getElementById("slider");
                 this.curiosityValue = slider.value;
@@ -429,9 +450,10 @@ var Questionnaire = function() {
 		psiTurk.saveData({
 			success: function() {
 			    clearInterval(reprompt);
-                psiTurk.computeBonus('compute_bonus', function(){
-                	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
-                });
+			    psiTurk.completeHIT();
+                // psiTurk.computeBonus('compute_bonus', function(){
+                // 	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+                // });
 
 
 			},
@@ -447,9 +469,13 @@ var Questionnaire = function() {
 	    record_responses();
 	    psiTurk.saveData({
             success: function(){
-                psiTurk.computeBonus('compute_bonus', function() {
-                	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
-                });
+                psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+            //     }
+            // });
+            // success: function(){
+            //     psiTurk.computeBonus('compute_bonus', function() {
+            //     	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+            //     });
             },
             error: prompt_resubmit});
 	});

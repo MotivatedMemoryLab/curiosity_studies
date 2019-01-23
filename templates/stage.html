@@ -2,18 +2,24 @@
 {% raw %}
 
 <div id = "app" class = "container">
-    <h1>Adcock Lab: Video Experiment</h1>
+    <h1>Motivation Lab: Video Experiment</h1>
     <div id = "welcome">
-        <p>Welcome to the video experiment by the Adcock Lab. If you would like to begin the experiment, please press the start button below. </p>
+        <p>Welcome to the video experiment by the Motivated Memory Lab. If you would like to begin the experiment, please press the <strong>start button</strong> below. </p>
         <button id = "startButton" class = "button" @click = "startExp">Start</button>
     </div>
     <div id = "startExp" >
-        <p>In this experiment you will be asked to watch several videos. The videos will begin with an empty canvas and will end with a drawing of some sort. Midway through the video, at any point, we ask that you pause the video and write down your prediction as to what the image will be. At the end of the video, you will be asked to write down what the final image is, and if you were correct.
+        <p>
+            In this experiment you will be asked to watch several videos. Each video will begin with an empty canvas and will slowly reveal itself through one continuous line stroke.  Throughout the video, try to figure out what is being drawn. Record your answers in the space provided.end with a drawing of some sort. At the end of the video, you will be asked to write down what the final image is, and rate how interested you were in the video and how fast you thought the line was moving.
         </p>
         <p>
-            When writing down our predictions, please give broad, general names for what is depicted. For instance, if you see a “puppy” or a “baby Chihuahua”, please just write down “Dog”.
+            When watching these videos please try your best to <strong>focus your attention on the drawing</strong> to give us the best understanding of how and when you can identify what it being drawn.
         </p>
-        <p>Please also do not try to hit the Refresh button during the experiment.</p>
+        <p>
+            Try to use the most common English words for drawing depictions. For example, if you see an image of a hamster write "hamster" instead of "animal" or "Winter White Dwarf hamster".
+        </p>
+        <p>
+            Please also <strong>do not try to hit the Refresh button</strong> during the experiment.
+        </p>
 
         <button class = "button" @click = "continueToStart">Continue</button>
 
