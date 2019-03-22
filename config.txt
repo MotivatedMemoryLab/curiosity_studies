@@ -1,5 +1,5 @@
 [HIT Configuration]
-title = Curiosity Video Task Part 1
+title = Curiosity Video Task Part 5
 description = Watch animated line drawings and guess what the picture is going to be of.
 amt_keywords = Choice, Psychology, Motivation, Art
 lifetime = 50
@@ -10,7 +10,7 @@ ad_group = DrawingVideos
 psiturk_keywords = drawingvideos
 organization_name = Duke University
 browser_exclude_rule = MSIE, mobile, tablet
-allow_repeats = true # Is this true for real task?
+allow_repeats = true
 
 [Database Parameters]
 
