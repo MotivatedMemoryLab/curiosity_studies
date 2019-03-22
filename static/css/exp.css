@@ -1,12 +1,12 @@
 body{
 /*     background-image: url(images/office_desk_background.jpg);*/
 /*        This image is from: https://chocotemplates.deviantart.com/art/Office-Desk-Background-148278416 with a free license*/
-    background-color: black;
+    background-color: rgba(0,0,0,0.7);
     background-attachment: fixed;
     background-repeat: no-repeat;
     margin-left: 150px;
     margin-right: 150px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 h1{
@@ -14,12 +14,12 @@ h1{
     padding-top: 1%;
     padding-bottom: 1%;
     margin-top: 1%;
-    background-color: rgba(255,255,240,0.9);
+    background-color: rgba(255,255,255,0.7);
     border-radius: 20px;
     
 }
 #welcome{
-    background-color: rgba(255,255,240,0.9);
+    background-color: rgba(255,255,255,0.7);
     border-radius: 20px; 
     padding: 1.5%;
     font-size: 120%;
@@ -34,13 +34,13 @@ h1{
 }
 #startExp{
     display: none;
-    background-color: rgba(255,255,240,0.9);
+    background-color: rgba(255,255,255,0.7);
     border-radius: 20px; 
     padding: 1.5%;
     font-size: 120%;
 }
 .videos{
-    background-color: rgba(255,255,240,0.9);
+    background-color: rgba(255,255,255,0.7);
     border-radius: 20px; 
     padding: 1.5%;
     font-size: 120%;
@@ -49,8 +49,12 @@ h1{
     
 }
 #displayGuess{
+    text-align: center;
     display: none;
 }
 #curiosityMeasure{
     display: none;
+}
+.videoGuess{
+    text-align: center;
 }
